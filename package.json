@@ -1,0 +1,12 @@
+{
+  "name": "rxai-production",
+  "version": "2.0.0",
+  "description": "RxAI — AI Prescription Validation System | BBD University B.Tech Final Year Project 2024-25 | Group 132",
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "backend": "cd backend && npm run dev",
+    "frontend": "cd frontend && npm start"
+  },
+  "author": "Group 132: Rahul Kumar (1220432419), Kunal Mishra (1220432299), Utkarsh Singh (2230432034), Pratush Singh (2230432020)",
+  "supervisor": "Ms. Kratika Chandra, Assistant Professor, BBD University"
+}
