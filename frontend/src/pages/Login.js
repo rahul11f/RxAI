@@ -34,7 +34,7 @@ export default function Login() {
       toast.success(`Welcome, ${data.user.name}!`);
       navigate('/dashboard');
     } catch (err) {
-      toast.error(err.response?.data?.error || 'Connection failed — is backend on port 5000?');
+      toast.error(err.response?.data?.error || 'Connection failed.');
     } finally { setLoading(false); }
   };
 
@@ -104,7 +104,7 @@ export default function Login() {
 
           <div className="info info-info" style={{marginTop:16,fontSize:12}}>
             <span>◈</span>
-            <span style={{fontFamily:'var(--mono)'}}>Backend must be active on <code>localhost:5000</code> before authentication.</span>
+            <span style={{fontFamily:'var(--mono)'}}>Secure authentication required.</span>
           </div>
         </div>
       </div>

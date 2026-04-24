@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { prescriptionAPI, drugAPI, interAPI, healthAPI, rxAPI } from '../utils/api';
+import { drugAPI, interAPI, healthAPI } from '../utils/api';
 import { useStore } from '../store/useStore';
 import { Chart, registerables } from 'chart.js';
 import toast from 'react-hot-toast';
@@ -258,12 +258,14 @@ export function Interactions() {
     interAPI.list().then(r=>setAll(r.data.data||[]));
   },[]);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(()=>{ if(drugs.length&&all.length) drawGraph(); },[drugs,all]);
 
   const drawGraph = ()=>{
     const c=cvs.current; if(!c)return;
     const ctx=c.getContext('2d');
     c.width=c.offsetWidth||420; c.height=320;
+    // eslint-disable-next-line no-unused-vars
     const dark=true;
     ctx.clearRect(0,0,c.width,c.height);
     const nodes=drugs.slice(0,12).map((d,i)=>{
@@ -387,12 +389,15 @@ export function Health() {
   const ch=useRef({});
   const [form,setForm]=useState({type:'bp',systolic:'',diastolic:'',glucose:'',weight:''});
   const [saving,setSaving]=useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [metrics,setMetrics]=useState([]);
 
   useEffect(()=>{
     healthAPI.list().then(r=>setMetrics(r.data.data||[])).catch(()=>{});
     drawCharts();
-    return()=>Object.values(ch.current).forEach(c=>c?.destroy());
+    const charts = ch.current;
+    return()=>Object.values(charts).forEach(c=>c?.destroy());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   const drawCharts=()=>{
@@ -482,7 +487,7 @@ export function Emergency() {
         {[{href:'tel:112',icon:'📞',title:'Emergency: 112',sub:'India National Emergency',c:'var(--red)'},
           {href:'tel:18001801104',icon:'☠️',title:'Poison Control',sub:'1800-180-1104 (Toll-free)',c:'var(--orange)'},
           {href:'https://www.google.com/maps/search/pharmacy+near+me',icon:'🗺️',title:'Nearby Pharmacy',sub:'Opens Google Maps',c:'var(--blue)'}].map(x=>(
-          <a key={x.title} href={x.href} target={x.href.startsWith('http')?'_blank':'_self'}
+          <a key={x.title} href={x.href} target={x.href.startsWith('http')?'_blank':'_self'} rel="noreferrer"
             className="card card-hover" style={{textAlign:'center',cursor:'pointer',border:`2px solid ${x.c}`,textDecoration:'none',display:'block'}}>
             <div style={{fontSize:40,marginBottom:8}}>{x.icon}</div>
             <div style={{fontSize:16,fontWeight:700,color:x.c}}>{x.title}</div>
@@ -553,7 +558,9 @@ export function Pharmacist() {
         {label:'Approved',data:[24,18,31,28,22,15,18],backgroundColor:'rgba(0,229,255,.6)',borderRadius:6},
         {label:'Rejected',data:[2,4,1,3,2,1,3],backgroundColor:'rgba(255,61,90,.6)',borderRadius:6},
       ]},options:{plugins:{legend:{labels:{font:{family:'Inter'},color:tc}}},scales:{x:{ticks:{color:tc,font:{family:'JetBrains Mono',size:10}},grid:{display:false}},y:{ticks:{color:tc,font:{family:'JetBrains Mono',size:10}},grid:{color:gc}}},responsive:true}});
-    return()=>ch.current?.destroy();
+    const chart = ch.current;
+    return()=>chart?.destroy();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   const approve=id=>{setQueue(q=>q.filter(x=>x.id!==id));toast.success(`${id} approved ✓`);};
@@ -698,7 +705,9 @@ export function Admin() {
         {label:'Prescriptions',data:[180,230,195,310,280,245,312],borderColor:'#448aff',fill:false,tension:.4,pointRadius:3},
         {label:'Users',data:[1100,1140,1165,1200,1230,1255,1284],borderColor:'#00e5ff',fill:false,tension:.4,pointRadius:3,yAxisID:'y1'},
       ]},options:{plugins:{legend:{labels:{font:{family:'Inter'},color:tc}}},scales:{x:{ticks:{color:tc,font:{family:'JetBrains Mono',size:10}},grid:{display:false}},y:{ticks:{color:tc,font:{family:'JetBrains Mono',size:10}},grid:{color:gc}},y1:{position:'right',ticks:{color:tc,font:{family:'JetBrains Mono',size:10}},grid:{display:false}}},responsive:true}});
-    return()=>ch.current?.destroy();
+    const chart = ch.current;
+    return()=>chart?.destroy();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   const USERS=[

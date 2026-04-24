@@ -8,8 +8,9 @@ const router = express.Router();
 // In-memory store (use PostgreSQL in production)
 const STORE = [];
 
+const os = require('os');
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, path.join(__dirname, '../uploads')),
+  destination: (req, file, cb) => cb(null, os.tmpdir()),
   filename:    (req, file, cb) => cb(null, `${uuid()}${path.extname(file.originalname)}`),
 });
 const upload = multer({

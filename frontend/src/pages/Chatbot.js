@@ -41,6 +41,7 @@ export default function Chatbot() {
 
   useEffect(()=>{
     if (chatHistory.length===0) addChatMsg({ role:'ai', content:WELCOME, ts:Date.now() });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 
   useEffect(()=>{

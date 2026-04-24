@@ -8,8 +8,10 @@ const fs      = require('fs');
 
 const app = express();
 
-// Ensure uploads directory exists
-const uploadDir = path.join(__dirname, 'uploads');
+const os = require('os');
+
+// Ensure uploads directory exists (use tmp for Vercel compatibility)
+const uploadDir = path.join(os.tmpdir(), 'uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
 // ── Middleware ──────────────────────────────────────────────────
@@ -19,6 +21,7 @@ app.use(morgan('dev'));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use('/uploads', express.static(uploadDir));
+app.use('/tmp', express.static(os.tmpdir()));
 
 // ── Routes ──────────────────────────────────────────────────────
 app.use('/api/auth',          require('./routes/auth'));
@@ -58,16 +61,20 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log('\n╔══════════════════════════════════════╗');
-  console.log('║   RxAI Backend  v2.0 — PRODUCTION    ║');
-  console.log('╠══════════════════════════════════════╣');
-  console.log(`║  URL:  http://localhost:${PORT}          ║`);
-  console.log(`║  Ping: http://localhost:${PORT}/api/ping ║`);
-  console.log('╠══════════════════════════════════════╣');
-  console.log(`║  Drugs: 30 | Interactions: 8          ║`);
-  const k = process.env.ANTHROPIC_API_KEY;
-  const chatStatus = k && k !== 'your_anthropic_api_key_here' ? '✅ Claude API active' : '⚠️  Fallback mode';
-  console.log(`║  Chatbot: ${chatStatus.padEnd(28)}║`);
-  console.log('╚══════════════════════════════════════╝\n');
-});
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log('\n╔══════════════════════════════════════╗');
+    console.log('║   RxAI Backend  v2.0 — PRODUCTION    ║');
+    console.log('╠══════════════════════════════════════╣');
+    console.log(`║  URL:  http://localhost:${PORT}          ║`);
+    console.log(`║  Ping: http://localhost:${PORT}/api/ping ║`);
+    console.log('╠══════════════════════════════════════╣');
+    console.log(`║  Drugs: 30 | Interactions: 8          ║`);
+    const k = process.env.ANTHROPIC_API_KEY;
+    const chatStatus = k && k !== 'your_anthropic_api_key_here' ? '✅ Claude API active' : '⚠️  Fallback mode';
+    console.log(`║  Chatbot: ${chatStatus.padEnd(28)}║`);
+    console.log('╚══════════════════════════════════════╝\n');
+  });
+}
+
+module.exports = app;

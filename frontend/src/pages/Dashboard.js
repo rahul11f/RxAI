@@ -56,7 +56,8 @@ export default function Dashboard() {
         responsive:true
       }
     });
-    return()=>Object.values(ch.current).forEach(c=>c?.destroy());
+    const charts = ch.current;
+    return()=>Object.values(charts).forEach(c=>c?.destroy());
   },[]);
 
   const first = user?.name?.split(' ')[0]||'Operator';
