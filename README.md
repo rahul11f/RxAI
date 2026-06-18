@@ -8,7 +8,7 @@ An AI-powered healthcare application for intelligent prescriptions and medical i
 - Easy to set up and run locally.
 
 ## 🚀 Live Demo
-Check out the live version here: [Live Demo](https://rahul11f.github.io/RxAI)
+A live demo is not currently available for this project.
 
 ## 🛠️ Installation & Setup
 
