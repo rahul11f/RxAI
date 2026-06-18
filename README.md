@@ -8,7 +8,7 @@ An AI-powered healthcare application for intelligent prescriptions and medical i
 - Easy to set up and run locally.
 
 ## 🚀 Live Demo
-A live demo is not currently available for this project.
+https://rxai2.vercel.app/
 
 ## 🛠️ Installation & Setup
 
